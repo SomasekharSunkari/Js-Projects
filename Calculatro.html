@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator using HTML,CSS and Javascrpit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing:border-box;
+        }
+        body {
+            background-color: rgba(110, 46, 75, 0.904);
+        }
+        .calculator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow:8px 5px 2px  red;
+            min-height: 100vh;
+        }
+        [type*="button"] {
+            padding: 10px 15px;
+            border-radius: 10px;
+            outline: 0;
+            border: 0;
+            cursor: pointer;
+            width:50px;
+            font-size:15px;
+            height:50px;
+            font-weight: 600;
+            background-color: transparent;
+            box-shadow:-2px -2px 5px 2px rgba(0,0,0,0.3);
+            color: white;
+
+
+        }
+
+        .container div {
+            display: flex;
+            margin-bottom:10px;
+            justify-content: space-around;
+        }
+
+        .more-space {
+            flex: 1;
+        }
+
+        .container {
+            background-color: transparent;
+            height:auto;
+        
+        }
+
+        .container div input {
+            margin: 5px;
+
+        }
+
+        [type="text"] {
+            width: 100%;
+            height: 30px;
+            margin-bottom: 10px;
+        }
+
+        .display {
+            height: 40px;
+            width: 100%;
+            background-color: transparent;
+        }
+
+        .main {
+            background-color: transparent;
+            border: 0;
+            outline: 0;
+            color: white;
+            font-size: 20px;
+            text-align: right;
+            padding:0;
+            margin:0;
+
+        }
+
+        .display {
+            display: flex;
+            justify-content: flex-end;
+            color: white;
+        }
+        .Heading{
+            color:white;
+            font-family:"Poppins",sans-serif;
+            margin-bottom:30px;;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <h1 class="Heading">Basic Calculator</h1>
+
+        <div class="container">
+            <div class="display">
+                <input type="text" name="display" class="main">
+            </div>
+            <div>
+                <input type="button" value="AC" onclick="document.querySelector('.main').value = ''">
+                <input type="button" value="DE" onclick="console.log(document.querySelector('.main').value = document.querySelector('.main').value.toString().slice(0,-1))" >
+                <input type="button" value="." onclick="document.querySelector('.main').value += '.'">
+                <input type="button" value="/" onclick="document.querySelector('.main').value += '/'">
+            </div>
+            <div>
+
+                <input type="button" value="7" onclick="document.querySelector('.main').value += '7'">
+                <input type="button" value="8" onclick="document.querySelector('.main').value += '8'">
+                <input type="button" value="9" onclick="document.querySelector('.main').value += '9'">
+                <input type="button" value="X" onclick="document.querySelector('.main').value += '*'">
+            </div>
+            <div>
+
+                <input type="button" value="4" onclick="document.querySelector('.main').value += '4'">
+                <input type="button" value="5" onclick="document.querySelector('.main').value += '5'">
+                <input type="button" value="6" onclick="document.querySelector('.main').value += '6'">
+                <input type="button" value="-" onclick="document.querySelector('.main').value += '-'">
+            </div>
+            <div>
+
+                <input type="button" value="1" onclick="document.querySelector('.main').value += '1'">
+                <input type="button" value="2" onclick="document.querySelector('.main').value += '2'">
+                <input type="button" value="3" onclick="document.querySelector('.main').value += '3'">
+                <input type="button" value="+" onclick="document.querySelector('.main').value += '+'">
+            </div>
+            <div>
+
+                <input type="button" value="00" onclick="document.querySelector('.main').value += '00'">
+                <input type="button" value="0" onclick="document.querySelector('.main').value += '0'">
+                <input type="button" value="=" class="more-space" onclick="document.querySelector('.main').value = eval(document.querySelector('.main').value)">
+            </div>
+        </div>
+    </div>
+    <script>
+
+        
+       
+    </script>
+</body>
+
+</html>

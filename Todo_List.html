@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List Using HTML,CSS,JAVASCRPIT</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        body {
+            background-image: linear-gradient(to right, rgb(4, 4, 70) 50%, darkblue);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        h1 {
+            color: white;
+        }
+
+        .todo-app {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        body .row {
+            width: 500px;
+            display: flex;
+            justify-content: space-between;
+            height: 60px;
+            position: relative;
+
+        }
+
+        .addbtn {
+            width: 100px;
+            height: 100%;
+            border-radius: 20px;
+            position: absolute;
+            right: 0;
+            background-color: orangered;
+            border: 0;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+
+            outline: 0;
+            font-size: 20px;
+            font-family: "Poppins", sans-serif;
+            z-index: 100;
+        }
+
+        .input-Box {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            border: 0;
+            outline: 0;
+            padding: 5px 0 0 20px;
+            font-size: 15px;
+
+            border-radius: 20px;
+
+        }
+
+        li span {
+            position: absolute;
+            right: 20px;
+            padding: 2px;
+            font-size: 30px;
+        }
+
+        li span:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+
+        }
+
+        .listContainer {
+            background: white;
+            height: 500px;
+            margin-top: 20px;
+            overflow: auto;
+            overflow-x: hidden;
+            padding: 0 20px 0 20px;
+            width: 500px;
+            border-radius: 20px;
+            position: relative;
+            z-index: 10000;
+        }
+
+        .listContainer li::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            border-radius: 50%;
+            height: 20px;
+            background-image: url("Images/unchecked.png");
+            background-size: cover;
+            background-position: center;
+            top: 10px;
+            left: -20px;
+
+        }
+
+        .listContainer li {
+            list-style-type: none;
+            position: relative;
+            left: 15px;
+            line-height: 40px;
+            padding-left: 10px;
+            top: 10px;
+            cursor: pointer;
+
+        }
+
+        .listContainer .checked {
+            text-decoration: line-through;
+            color: rgb(103, 100, 100);
+
+        }
+
+        .listContainer .checked::before {
+            background-image: url("Images/checked.png");
+        }
+    </style>
+</head>
+
+<body>
+    <div class="todo-app">
+        <h1>Todo List</h1>
+        <div class="row">
+            <input type="text" class="input-Box" placeholder="Enter todo....">
+            <button class="addbtn">Add</button>
+        </div>
+        <div class="listContainer">
+
+        </div>
+    </div>
+
+    <script>
+        const adding = document.querySelector(".addbtn");
+        let input = document.querySelector(".input-Box");
+        let List_Container = document.querySelector(".listContainer");
+
+        adding.addEventListener("click", () => {
+            if (input.value == "") {
+                alert("You Need To Enter Something to Add");
+            } else {
+                let li = document.createElement("li");
+                li.innerHTML = input.value;
+
+                let span = document.createElement("span");
+                span.innerHTML = "\u00d7";
+                li.appendChild(span);
+                List_Container.appendChild(li);
+            }
+
+            input.value = "";
+            saveData();
+
+        });
+
+        List_Container.addEventListener("click", function (e) {
+            if (e.target.tagName === "LI") {
+                e.target.classList.toggle("checked"); // Use e.target to toggle the class on the clicked <li>
+                saveData();
+            } else if (e.target.tagName === "SPAN") {
+                e.target.parentElement.remove(); // Remove the parent <li> when the <span> is clicked
+                saveData();
+            }
+        }, false);
+
+        function saveData() {
+            localStorage.setItem("data", List_Container.innerHTML);
+        }
+        function showtask() {
+            List_Container.innerHTML = localStorage.getItem("data");
+        }
+        showtask();
+
+
+
+
+
+    </script>
+</body>
+
+</html>

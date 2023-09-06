@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+        body {
+            background-color: rgb(41, 39, 39);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+
+        }
+
+        * {
+            font-family: "Poppins", sans-serif;
+
+        }
+
+        .app-container {
+            width: 350px;
+            position: relative;
+            height: 70vh;
+            background-image: linear-gradient(135deg, #00feba, #5b548a);
+            border-radius: 20px;
+        }
+
+        .search-part {
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            padding-top: 20px;
+            padding-left: 40px;
+            background-color: transparent;
+        }
+
+        .search-part button {
+            height: 50px;
+            border-radius: 50%;
+            outline: 0;
+            border: 0;
+            background-color: white;
+            cursor: pointer;
+            width: 50px;
+        }
+
+        .search-part button img {
+            width: 40%;
+            height: 40%;
+        }
+
+        .search-part input {
+            margin-right: 10px;
+            flex: 1;
+            border-radius: 20px;
+            border: 0;
+            padding-left: 20px;
+
+        }
+
+        .search-part input:focus {
+            border: 0;
+            outline: 0;
+            padding-left: 10px;
+        }
+
+        .Display-Content {
+
+
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+
+
+        }
+
+        .Display-Content img {
+            height: 150px;
+            width: 150px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: transparent;
+        }
+
+        .cityName {
+            color: white;
+            text-align: center;
+            background-color: transparent;
+            margin: 0;
+            font-size: 40px;
+            font-weight: bold;
+
+        }
+
+        .ExtraContent {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px 0 30px;
+            align-items: flex-end;
+            height: 100px;
+            background-color: transparent;
+        }
+
+        .temperature {
+            color: white;
+            font-size: 60px;
+            background-color: transparent;
+
+            text-align: center;
+
+
+        }
+
+        .col {
+            display: inline-flex;
+            line-height: 25px;
+        }
+
+        .col img {
+            height: 35px;
+            width: 35px;
+        }
+
+        .col .humiditypercent {
+            font-size: 20px;
+            color: white;
+
+        }
+
+        .col .c2 {
+            padding-left: 10px;
+        }
+
+        .windspeed {
+            color: white;
+        }
+
+        .headinghumudity {
+            display: block;
+            color: white;
+        }
+
+        .weather {
+            display: none;
+        }
+
+        .Heading {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="Heading">Weather App</h1>
+    <div class="app">
+        <div class="app-container">
+            <div class="search-part">
+                <input type="text" class="searchBar" placeholder="Enter city name ....">
+                <button class="search"><img src="/Images/weather-app-img/images/search.png" alt=""></button>
+            </div>
+            <div class="error">
+                <p style="color:white;margin-left:50px;display:none">Invalid City Name</p>
+            </div>
+            <div class="weather">
+                <div class="Display-Content">
+                    <img src="/Images/weather-app-img/images/clouds.png" alt="" class="image">
+                    <span class="temperature">7°c</span>
+                    <span class="cityName">New York</span>
+                    <div class="ExtraContent">
+                        <div class="col">
+                            <img src="/Images/weather-app-img/images/humidity.png" alt="">
+                            <div class="c2">
+                                <span class="humiditypercent">
+                                    48%
+                                </span>
+                                <span class="headinghumudity">Humidity</span>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <img src="/Images/weather-app-img/images/wind.png" alt="">
+                            <div class="c2">
+                                <span class="windspeed">
+                                    10.29 km/h
+                                </span>
+                                <span class="headinghumudity">Wind Speed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let searchbtn = document.querySelector(".search");
+        let searchcontent = document.querySelector(".searchBar");
+        let icon = document.querySelector(".image");
+        let weather = document.querySelector(".weather");
+        const apiKey = "859d24c9580cba59930aa0999d05c108";
+        const apiURL = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+        /*https://api.openweathermap.org/data/2.5/weather?id={germany}&appid={859d24c9580cba59930aa0999d05c108}*/
+        async function checkweather(city) {
+            const response = await fetch(apiURL + city + `&appid=${apiKey}`)
+            var data = await response.json();
+            console.log(response.status)
+            if(response.status == "404"){
+                document.querySelector(".error p").style.display  = "block";
+                document.querySelector(".error p").style.fontWeight  = "bold";
+
+
+                weather.style.display = "none";
+            }
+            else{
+                document.querySelector(".cityName").innerHTML = data.name;
+                document.querySelector(".temperature").innerHTML = `${Math.round(data.main.temp)}°c`;
+                document.querySelector(".humiditypercent").innerHTML = `${data.main.humidity}%`;
+                document.querySelector(".windspeed").innerHTML = `${data.wind.speed} km/h`;
+                if (data.weather[0].main == "Clouds") {
+                    icon.src = "/Images/weather-app-img/images/clouds.png"
+                }
+                else if (data.weather[0].main == "Clear") {
+                    icon.src = "/Images/weather-app-img/images/clear.png"
+                }
+                else if (data.weather[0].main == "Rain") {
+                    icon.src = "/Images/weather-app-img/images/rain.png"
+                }
+                else if (data.weather[0].main == "Drizzle") {
+                    icon.src = "/Images/weather-app-img/images/drizzle.png"
+                }
+                else if (data.weather[0].main == "Mist") {
+                    icon.src = "/Images/weather-app-img/images/mist.png"
+                }
+                document.querySelector(".error p").style.display  = "none";
+                weather.style.display = "block";
+            }
+        }
+        searchbtn.addEventListener("click", () => {
+            checkweather(searchcontent.value);
+        })
+    </script>
+</body>
+
+</html>
