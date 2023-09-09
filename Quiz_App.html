@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App Using Html,css,javascrpit</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        body {
+            background-color: darkblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        * {
+            font-family: "Poppins", sans-serif;
+        }
+
+        .app {
+            width: 90%;
+            max-width: 650px;
+            height: auto;
+            border-radius: 20px;
+            background-color: white;
+            padding: 20px 30px 20px;
+        }
+
+        .correct {
+            background-color: rgb(9, 217, 16);
+            color: white;
+        }
+
+        .incorrect {
+            background-color: red;
+            color: white;
+        }
+
+        .app .headingMain {
+            text-align: left;
+            background-color: transparent;
+            font-size: 38px;
+            border-bottom: 2px solid black;
+            padding-bottom: 15px;
+        }
+
+        #question {
+            font-size: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            margin: 10px auto 20px;
+            height: 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 0;
+            box-shadow:inset -2px -2px 5px rgba(0, 0, 0, 0.3),inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+            transition: all .3s;
+        }
+
+        .btn:hover:not([disabled]) {
+            background-color: black;
+            color: white;
+        }
+
+        .btn:disabled {
+            cursor: no-drop;
+
+        }
+
+        .nextbtn {
+            margin-left: auto;
+            margin-right: auto;
+            width: 150px;
+            padding: 10px 5px 10px;
+            background-color: black;
+            color: white;
+            display: none;
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <h1 class="headingMain">Simple Quiz</h1>
+        <div class="quiz">
+            <h1 id="question">1 . What is age of chaitanya in the year of 2000 ? </h1>
+            <div class="button-options">
+                <button class="btn">100</button>
+                <button class="btn">90</button>
+                <button class="btn">550</button>
+                <button class="btn">49</button>
+            </div>
+            <div class="button">
+                <button class="nextbtn">Next</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "What is largest animal in the world ?",
+                options: [
+                    { text: "Shark", correct: false },
+                    { text: "Elephent", correct: true },
+                    { text: "Dog", correct: false },
+                    { text: "cat", correct: false },
+                ]
+
+            }, {
+                question: "What is largest Bird in the world ?",
+                options: [
+                    { text: "Pegion", correct: true },
+                    { text: "Cock", correct: false },
+                    { text: "Parrot", correct: false },
+                    { text: "Hammin gbird", correct: false },
+                ]
+
+            },
+            {
+                question: "What is largest Person in the world ?",
+                options: [
+                    { text: "Sekhar", correct: false },
+                    { text: "Ragava", correct: false },
+                    { text: "Kirean", correct: true },
+                    { text: "Manoj", correct: false },
+                ]
+
+            },
+            {
+                question: "Whom i love mostly  ?",
+                options: [
+                    { text: "Mother", correct: true },
+                    { text: "Daddy", correct: false },
+                    { text: "Brothers", correct: false },
+                    { text: "Sisters", correct: false },
+                ]
+
+            }
+
+        ];
+
+        let Nextbtn = document.querySelector(".nextbtn");
+        let question = document.getElementById("question");
+        let answetbuttons = document.querySelector(".button-options");
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            showQuestions();
+
+        }
+        function showQuestions() {
+            resetState();
+            let currentQuestion = questions[currentQuestionIndex];
+            let questionNumber = currentQuestionIndex + 1;
+            question.innerHTML = questionNumber + "." + currentQuestion.question;
+            Nextbtn.style.display = "none";
+            currentQuestion.options.forEach(answer => {
+                let butnElement = document.createElement("button");
+                butnElement.innerHTML = answer.text;
+                butnElement.classList.add("btn");
+                answetbuttons.appendChild(butnElement);
+                if (answer.correct) {
+                    butnElement.dataset.correct = answer.correct;
+
+                }
+                butnElement.addEventListener("click", selectAnswer);
+
+            })
+        }
+        function resetState() {
+            Nextbtn.style.display = "none;"
+            while (answetbuttons.firstChild) {
+                answetbuttons.removeChild(answetbuttons.firstChild);
+            }
+        }
+        function selectAnswer(e) {
+            const selctedbtn = e.target;
+            console.log(selctedbtn)
+            const isCorrect = selctedbtn.dataset.correct === "true";
+            if (isCorrect) {
+                selctedbtn.classList.add("correct");
+                score += 1;
+            }
+            else {
+                selctedbtn.classList.add("incorrect");
+            }
+            Array.from(answetbuttons.children).forEach(button => {
+                if (button.dataset.correct === "true") {
+                    button.classList.add("correct");
+                }
+                else{
+                button.disabled = true;
+                }
+            })
+            Nextbtn.style.display = "block";
+        }
+        function Showscore() {
+            resetState();
+            question.innerHTML = `You Scored ${score} out of ${questions.length}`;
+            Nextbtn.innerHTML = "Play Again "
+            Nextbtn.style.display = "block";
+            console.log(Nextbtn.parentElement)
+        }
+        function handelNextButton() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestions();
+            }
+            else {
+                Showscore();
+            }
+        }
+        
+        Nextbtn.addEventListener("click", () => {
+            if (currentQuestionIndex < questions.length) {
+                handelNextButton();
+            }
+            else {
+                startQuiz();
+            }
+        })
+        startQuiz();
+
+    </script>
+</body>
+
+</html>
