@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Calculator</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        background-image: linear-gradient(135deg, purple, lightgreen);
+        background-size: cover;
+        min-height: 100vh;
+        background-repeat: no-repeat;
+      }
+      .container {
+        width: 100%;
+        max-width: 600px;
+        background-image: linear-gradient(135deg, lightgreen, blue);
+        padding: 50px 30px 20px;
+
+        height: 150px;
+      }
+      .main {
+        padding-left: 5%;
+        padding-top: 15%;
+      }
+      .main > h1 {
+        font-size: 50px;
+      }
+      .sub-head {
+        color: yellow;
+      }
+      .head1 {
+        color: white;
+      }
+      .Age-caculator {
+        border-radius: 5px;
+        height: 50%;
+
+        background-color: transparent;
+        display: flex;
+      }
+      .date {
+        flex: 1;
+        margin-right: 30px;
+        font-size: 20px;
+        padding: 14px 10px;
+        border: 0;
+
+        border-radius: 5px;
+        cursor: pointer;
+        outline: 0;
+      }
+      input::-webkit-calender-picker-indicator {
+        top: 0;
+        left: 0;
+        bottom: 0;
+
+        right: 0;
+        position: absolute;
+        width: auto;
+        background-size: 30px;
+        cursor: pointer;
+        height: auto;
+      }
+      .result {
+        margin-left: 70px;
+        font-size: 30px;
+        margin-top: 20px;
+      }
+      button {
+        background-color: yellow;
+        border-radius: 10px;
+        cursor: pointer;
+        padding: 10px 20px 20px;
+        border: 0;
+        outline: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <h1 class="head1">
+        JavaScrpit <br /><span class="sub-head">Age Calculator</span>
+      </h1>
+
+      <div class="container">
+        <div class="Age-caculator">
+          <input type="date" class="date" />
+          <button onclick="calculate()">Caluculate</button>
+        </div>
+      </div>
+    </div>
+    <div class="result"></div>
+    <script>
+      let result = document.querySelector(".result");
+
+      let date = document.querySelector(".date");
+      date.max = new Date().toISOString().split("T")[0];
+      function calculate() {
+        let UserDate = new Date(date.value);
+
+        let d1 = UserDate.getDate();
+        let m1 = UserDate.getMonth() + 1;
+        console.log("M1 == " + m1);
+        let y1 = UserDate.getFullYear();
+        console.log("D1 ==" + d1);
+        console.log("Y1 == " + y1);
+        let today = new Date();
+
+        let d2 = today.getDate();
+        let m2 = today.getMonth() + 1;
+        let y2 = today.getFullYear();
+        console.log("D2 == " + d2);
+        console.log("M2 == " + m2);
+        console.log("Y2 == " + y2);
+
+        let d3, m3, y3;
+
+        y3 = y2 - y1;
+
+        if (m2 >= m1) {
+          m3 = m2 - m1;
+        } else {
+          y3--;
+          m3 = 12 + m2 - m1;
+        }
+        if (d2 >= d1) {
+          d3 = d2 - d1;
+        } else {
+          m3--;
+          d3 = getDaysInMonth(y1, m1) + d2 - d1;
+        }
+        if (m3 < 0) {
+          m3 = 11;
+          y3--;
+        }
+        result.innerHTML = `You are ${y3} years , ${m3} months and ${d3} days old`;
+        result.style.color = "white";
+      }
+      function getDaysInMonth(year, month) {
+        return new Date(year, month, 0).getDate();
+      }
+    </script>
+  </body>
+</html>

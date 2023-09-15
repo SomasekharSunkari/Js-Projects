@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes App using HTML,CSS and Javascrpit</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      .container {
+        width: 100%;
+        min-height: 100vh;
+        background-image: linear-gradient(135deg, #cf9aff, #95c0ff);
+        padding-top: 4%;
+        overflow: auto;
+        padding-left: 5%;
+      }
+
+      .container h1 {
+        display: flex;
+        align-items: center;
+        font-size: 30px;
+      }
+      .container img {
+        width: 35px;
+        margin-right: 5px;
+      }
+
+      .container button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        max-width: 150px;
+        height: 40px;
+        background-image: linear-gradient(purple, blue);
+        border: 0;
+        outline: 0;
+        border-radius: 20px;
+        margin-top: 20px;
+        cursor: pointer;
+      }
+      .container button img {
+        width: 20px;
+      }
+      .input-box {
+        width: 500px;
+        background-color: white;
+        margin-top: 30px;
+        height: 140px;
+
+        border: 0;
+        position: relative;
+        outline: 0;
+        padding: 20px 0 0 20px;
+        max-height: 500px;
+      }
+      .input-box img {
+        position: absolute;
+        bottom: 0;
+        height: 30px;
+        width: 30px;
+        right: 0;
+        margin: 0 20px 20px 0;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="heading">
+        <img src="/Images/notes-app-img/images/notes.png" />Notes
+      </h1>
+      <button class="BtnCreate">
+        <img src="/Images/notes-app-img/images/edit.png" />Create Notes
+      </button>
+      <!-- <p
+        contenteditable="true"
+        class="input-box"
+        aria-placeholder="Enter Somthinf"
+      >
+        <img src="/Images/notes-app-img/images/delete.png" />
+      </p> -->
+    </div>
+
+    <script>
+      let createbtn = document.querySelector(".BtnCreate");
+      let Notes_Container = document.querySelector(".container");
+      let input_box = document.querySelector(".input-box");
+      function showContent() {
+        Notes_Container.innerHTML = localStorage.getItem("data");
+      }
+      function UpdateStroage() {
+        localStorage.setItem("data", Notes_Container.innerHTML);
+      }
+      createbtn.addEventListener("click", () => {
+        let element = document.createElement("p");
+        let img = document.createElement("img");
+        element.setAttribute("contenteditable", "true");
+        element.className = "input-box";
+        img.src = "/Images/notes-app-img/images/delete.png";
+
+        Notes_Container.appendChild(element).appendChild(img);
+      });
+
+      Notes_Container.addEventListener("click", (e) => {
+        if (e.target.tagName === "IMG") {
+          e.target.parentElement.remove();
+          UpdateStroage();
+        } else if (e.target.tagName === "P") {
+          n = document.querySelectorAll(".input-box");
+          n.forEach((item) => {
+            item.onkeyup = function () {};
+          });
+        }
+        UpdateStroage();
+      });
+      console.log(localStorage.getItem("data"));
+      console.log(Notes_Container.innerHTML);
+    </script>
+  </body>
+</html>
